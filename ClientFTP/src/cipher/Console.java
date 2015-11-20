@@ -2,7 +2,7 @@ package cipher;
 
 //Created by Heradocles and Mendez
 
-public class main {
+public class Console {
     public static void main(String[] args) {
 
 
