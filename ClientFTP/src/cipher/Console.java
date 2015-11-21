@@ -12,6 +12,8 @@ public class Console {
         Scanner reader=new Scanner(System.in);
         String ip;
         String session="no";
+        String Directory;
+        String DDirectory;
 
         //Para la validacion en servidor.
         String[][] Accounts={{"menor","beta"},{"mayor","papi"},{"diablon","bigcola"}};
@@ -71,23 +73,38 @@ public class Console {
 
                 case "list":
                     //hacer el list
-                    System.out.printf("\nftp>La lista de archivos es la siguinte:\n\n");
+                    System.out.print("\nftp>Por favor indique la direccion de la carpeta. \nftp>");
+                    Directory=reader.nextLine();
 
-                    File aDirectory = new File("D:\\Programacion\\Proyectos ST\\FTP\\Archivos servidor");
+                    System.out.printf("\nftp>La lista de archivos es la siguinte:\n ");
+
+                    File aDirectory = new File(Directory);
 
                     String[] filesInDir = aDirectory.list();
 
                     for ( int i=0; i<filesInDir.length; i++ ) {
-                        System.out.println("ftp>" + filesInDir[i]);
+                        System.out.println("\nftp> " + filesInDir[i]);
                     }
                     break;
 
                 case "delete":
-                    //comprobar si el archivo existe
-                    //hacer el delete
+                    try{
+                        System.out.print("\n>Por favor indique el archivo que desea eliminar. \n>");
+                        DDirectory=reader.nextLine();
 
-                    System.out.println("\nftp>El archivo no se encuentra disponible.");
-                    System.out.println("\nftp>El archivo no deseado, ha sido borrado.");
+                        File file = new File(DDirectory);
+
+                        if(file.delete()){
+                            System.out.println(file.getName() + "\nftp>El archivo no deseado, ha sido borrado.");
+                        }else{
+                            System.out.println("\nftp>El archivo no se encuentra disponible.");
+                        }
+
+                    }catch(Exception e){
+
+                        e.printStackTrace();
+
+                    }
                     break;
 
                 case "quit":
