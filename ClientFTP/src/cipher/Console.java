@@ -16,24 +16,24 @@ public class Console {
 
         //Para introducir en el cliente.
         String userandpassclient;
-        String partesuserandpass;
-
 
         String comandoftp;
         String direccionarchivo;
 
-
-
         System.out.println(">Bienvenido. ");
         System.out.print("\n>Por favor indique su IP o el nombre de su maquina. \n>");
-        ip=reader.nextLine();
+            ip=reader.nextLine();
+
 
         System.out.println("\n>Espere, por favor.");
         //Verificar conexcion.
 
         System.out.println(">Conexion establecida.");
         System.out.print("\n>Indique su usuario y contraseña (usuario,contraseña): \n>");
-        userandpassclient=reader.nextLine();
+            userandpassclient=reader.nextLine();
+
+            String partesUP[]=userandpassclient.split(",");
+
 
 
 
