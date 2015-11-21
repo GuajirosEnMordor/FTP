@@ -10,8 +10,15 @@ public class Console {
         //Variables y demas.
         Scanner reader=new Scanner(System.in);
         String ip;
-        String user;
-        String clave;
+
+        //Para la validacion en servidor.
+        String[][] Accounts={{"menor","beta"},{"mayor","papi"},{"diablon","bigcola"}};
+
+        //Para introducir en el cliente.
+        String userandpassclient;
+        String partesuserandpass;
+
+
         String comandoftp;
         String direccionarchivo;
 
@@ -25,15 +32,12 @@ public class Console {
         //Verificar conexcion.
 
         System.out.println(">Conexion establecida.");
-        System.out.print("\n>Usuario: \n>");
-        user=reader.nextLine();
-        //Verificar usuario.
+        System.out.print("\n>Indique su usuario y contraseña (usuario,contraseña): \n>");
+        userandpassclient=reader.nextLine();
 
-        System.out.print("\n>El usuario ingresado, es valido, por favor, ingrese su clave: \n>");
-        clave=reader.nextLine();
-        //Verificar clave.
 
-        System.out.println("\n>Su clave es valida. ");
+
+        System.out.println("\n>Usuario valido, por favor espere.");
 
         while (true){
             System.out.print("\nftp>Esperando un comando.\nftp>");
