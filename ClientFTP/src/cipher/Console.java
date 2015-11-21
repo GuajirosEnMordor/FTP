@@ -29,7 +29,7 @@ public class Console {
         //Verificar conexcion.
 
         System.out.println(">Conexion establecida.");
-        System.out.print("\n>Indique su usuario y contraseña (usuario,contraseña): \n>");
+        System.out.print("\n>Indique su usuario y clave (usuario,clave): \n>");
             //Aqui hacemos el split y separamos en un string array
             userandpassclient=reader.nextLine();
             String partesUP[]=userandpassclient.split(",");
