@@ -2,6 +2,7 @@ package cipher;
 
 //Created by Heradocles and Mendez
 
+import java.io.File;
 import java.util.Scanner;
 
 public class Console {
@@ -70,7 +71,16 @@ public class Console {
 
                 case "list":
                     //hacer el list
-                    System.out.printf("\nftp>La lista de archivos es la siguinte: ");
+                    System.out.printf("\nftp>La lista de archivos es la siguinte:\n ");
+
+                    File aDirectory = new File("C:/Users/NANA/Desktop");
+
+                    String[] filesInDir = aDirectory.list();
+
+                    for ( int i=0; i<filesInDir.length; i++ ) {
+                        System.out.println("file: " + filesInDir[i]);
+                    }
+
                     break;
 
                 case "delete":
