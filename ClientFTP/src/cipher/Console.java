@@ -30,9 +30,11 @@ public class Console {
 
         System.out.println(">Conexion establecida.");
         System.out.print("\n>Indique su usuario y contraseña (usuario,contraseña): \n>");
+            //Aqui hacemos el split y separamos en un string array
             userandpassclient=reader.nextLine();
-
             String partesUP[]=userandpassclient.split(",");
+
+            //Ahora aqui comparamos con los usuarios del ''Servidor''.
 
 
 
