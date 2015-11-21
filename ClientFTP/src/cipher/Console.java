@@ -78,7 +78,7 @@ public class Console {
                     String[] filesInDir = aDirectory.list();
 
                     for ( int i=0; i<filesInDir.length; i++ ) {
-                        System.out.println("file: " + filesInDir[i]);
+                        System.out.println("ftp>: " + filesInDir[i]);
                     }
 
                     break;
