@@ -10,12 +10,13 @@ public class Console {
         //Variables y demas.
         Scanner reader=new Scanner(System.in);
         String ip;
+        String session="no";
 
         //Para la validacion en servidor.
         String[][] Accounts={{"menor","beta"},{"mayor","papi"},{"diablon","bigcola"}};
 
         //Para introducir en el cliente.
-        String userandpassclient;
+        String user;
 
         String comandoftp;
         String direccionarchivo;
@@ -29,15 +30,25 @@ public class Console {
         //Verificar conexcion.
 
         System.out.println(">Conexion establecida.");
-        System.out.print("\n>Indique su usuario y clave (usuario,clave): \n>");
-            //Aqui hacemos el split y separamos en un string array
-            userandpassclient=reader.nextLine();
-            String partesUP[]=userandpassclient.split(",");
 
-            //Ahora aqui comparamos con los usuarios del ''Servidor''.
+            if(session.equals("no")){
+                //Pedir clave y usuario, y separarlo.
+        System.out.print("\n>Indique su usuario y clave (usuario#clave): \n>");
+            user=reader.nextLine();
+            String partesUP[]=user.split("#");
 
+            //Validacion.
 
-
+                for(int i=0;i<Accounts.length;i++) {
+                    if(partesUP[0]==Accounts[i][0]){
+                    if(partesUP[1]==Accounts[i][1])
+                        session="yes";
+                    if(session.equals("no")){
+                        System.out.println("Usuario invalido.");
+                        }
+                    }
+                }
+            }
 
         System.out.println("\n>Usuario valido, por favor espere.");
 
