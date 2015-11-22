@@ -72,7 +72,6 @@ public class Console {
                     break;
 
                 case "list":
-                    //hacer el list
                     System.out.print("\nftp>Por favor indique la direccion de la carpeta. \nftp>");
                     Directory=reader.nextLine();
 
@@ -89,22 +88,20 @@ public class Console {
 
                 case "delete":
                     try{
-                        System.out.print("\n>Por favor indique el archivo que desea eliminar. \n>");
+                        System.out.print("\n>Por favor indique el archivo(La direccion del mismo) que desea eliminar. \n>");
                         DDirectory=reader.nextLine();
 
                         File file = new File(DDirectory);
 
                         if(file.delete()){
                             System.out.println(file.getName() + "\nftp>El archivo no deseado, ha sido borrado.");
-                        }else{
+                        }else {
                             System.out.println("\nftp>El archivo no se encuentra disponible.");
                         }
 
                     }catch(Exception e){
-
                         e.printStackTrace();
-
-                    }
+                        }
                     break;
 
                 case "quit":
