@@ -6,7 +6,7 @@ import java.net.*;
 import java.io.*;
 import java.util.*;
 
-public class conexcion {
+public class Main {
 
     public static void main(String[] args) {
 
@@ -21,7 +21,8 @@ public class conexcion {
             Server=new ServerSocket(9000);
             System.out.println("\n>Esperando conexcion de un cliente.");
             ElSocket=Server.accept();
-            System.out.println("Conexcion con cliente exitosa.");
+            System.out.println("\n>Conexcion con cliente exitosa.");
+            System.out.println("\n>Esperando un comando desde el servidor.");
 
         } catch (IOException e) {
             System.out.println(e);

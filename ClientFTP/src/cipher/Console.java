@@ -31,10 +31,8 @@ public class Console {
             ip=reader.nextLine();
 
 
-
 //Iniciar Server.
             Socket Cliente;
-
 
 try{
     Cliente=new Socket(""+ip,9000);
