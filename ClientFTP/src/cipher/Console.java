@@ -1,8 +1,10 @@
 package cipher;
 
-//Created by Heradocles and Mendez
+//Created by Heradocles and Mendez.
 
 import java.io.File;
+import java.io.IOException;
+import java.net.Socket;
 import java.util.Scanner;
 
 public class Console {
@@ -27,6 +29,15 @@ public class Console {
         System.out.println(">Bienvenido. ");
         System.out.print("\n>Por favor indique su IP o el nombre de su maquina. \n>");
             ip=reader.nextLine();
+
+
+
+//Iniciar Server.
+            Socket Cliente;
+
+
+try{
+    Cliente=new Socket(""+ip,9000);
 
 
         System.out.println("\n>Espere, por favor.");
@@ -56,33 +67,33 @@ public class Console {
         System.out.println("\n>Usuario valido, por favor espere.");
 
         while (true){
-            System.out.print("\nftp>Esperando un comando.\nftp>");
+            System.out.print("\nconexcion>Esperando un comando.\nconexcion>");
             comandoftp=reader.nextLine();
 
             switch (comandoftp){
 
                 case "get":
                     //Hacer el get
-                    System.out.println("\nftp>El archivo deseado ha sido descargado.");
+                    System.out.println("\nconexcion>El archivo deseado ha sido descargado.");
                     break;
 
                 case "put":
                     //hacer el put
-                    System.out.println("\nftp>El archivo deseado ha sido subido al servidor.");
+                    System.out.println("\nconexcion>El archivo deseado ha sido subido al servidor.");
                     break;
 
                 case "list":
-                    System.out.print("\nftp>Por favor indique la direccion de la carpeta. \nftp>");
+                    System.out.print("\nconexcion>Por favor indique la direccion de la carpeta. \nconexcion>");
                     Directory=reader.nextLine();
 
-                    System.out.printf("\nftp>La lista de archivos es la siguinte:\n ");
+                    System.out.printf("\nconexcion>La lista de archivos es la siguinte:\n ");
 
                     File aDirectory = new File(Directory);
 
                     String[] filesInDir = aDirectory.list();
 
                     for ( int i=0; i<filesInDir.length; i++ ) {
-                        System.out.println("\nftp> " + filesInDir[i]);
+                        System.out.println("\nconexcion> " + filesInDir[i]);
                     }
                     break;
 
@@ -94,9 +105,9 @@ public class Console {
                         File file = new File(DDirectory);
 
                         if(file.delete()){
-                            System.out.println(file.getName() + "\nftp>El archivo no deseado, ha sido borrado.");
+                            System.out.println(file.getName() + "\nconexcion>El archivo no deseado, ha sido borrado.");
                         }else {
-                            System.out.println("\nftp>El archivo no se encuentra disponible.");
+                            System.out.println("\nconexcion>El archivo no se encuentra disponible.");
                         }
 
                     }catch(Exception e){
@@ -105,8 +116,8 @@ public class Console {
                     break;
 
                 case "quit":
-                    System.out.println("\nftp>Cerrando las conexciones, espere un momento.");
-                    System.out.println("ftp>Hasta luego, gracias por usar nuestro intento de servidor FTP.");
+                    System.out.println("\nconexcion>Cerrando las conexciones, espere un momento.");
+                    System.out.println("conexcion>Hasta luego, gracias por usar nuestro intento de servidor FTP.");
                     System.exit(0);
                     break;
 
@@ -114,13 +125,20 @@ public class Console {
                     //traer help del servidor, pero por ahora... Te jodiste.
 
                     String help = "La lista de comandos es la siguiente: \n\n >Put ( put 'direccion del archivo') Esto enviara un archivo al servidor. \n >Get (get 'direccion del archivo) Esto recibira un archivo del servidor. \n >Quit, para salir de la aplicacion. \n >Delete (delete 'nombre del archivo), elimina un archivo del servidor. \n >List (list), se usa para ver la lista de archivos disponibles en el servidor.";
-                    System.out.println("\nftp>"+help);
+                    System.out.println("\nconexcion>"+help);
                     break;
 
                 default:
                 case "Ups":
-                    System.out.println("\nftp>El comando no se encuentra disponible. Intente de nuevo.");
+                    System.out.println("\nconexcion>El comando no se encuentra disponible. Intente de nuevo.");
             }
         }
+
+
+    }catch (IOException e){
+        System.out.println(e);
     }
+
+  }
+
 }
