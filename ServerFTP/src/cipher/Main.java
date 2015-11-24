@@ -40,21 +40,23 @@ public class Main {
             salida=new ObjectOutputStream(ElSocket.getOutputStream());
             entrada=new ObjectInputStream(ElSocket.getInputStream());
 
-            if(Uservalido==0){
+            while (Uservalido==0) {
+
 
                 //Recibir user del cliente.
 
-                user=(String)entrada.readObject();
-                String partesUP[]=user.split("#");
+                user = (String) entrada.readObject();
+                String partesUP[] = user.split("#");
 
                 //Validacion.
 
-                for(int i=0;i<Accounts.length;i++) {
-                    if(partesUP[0]==Accounts[i][0]){
-                        if(partesUP[1]==Accounts[i][1])
-                            Uservalido=1;
-                        }
-                        }
+
+                for (int i = 0; i < Accounts.length; i++) {
+                    if (partesUP[0] == Accounts[i][0]) {
+                        if (partesUP[1] == Accounts[i][1])
+                            Uservalido = 1;
+                    }
+                }
             }
 
                 //Enviar respuesta.

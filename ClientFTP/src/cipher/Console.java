@@ -49,8 +49,6 @@ try{
 //Verificacion.
 
     while (uservalido==0) {
-
-        if (uservalido == 0) {
             //Pedir clave y usuario, y separarlo.
             System.out.print("\n>Indique su usuario y clave (usuario#clave): \n>");
             user = reader.nextLine();
@@ -61,9 +59,10 @@ try{
 
             if (uservalido == 0) {
                 System.out.println("\n>Usuario invalido, intente de nuevo.");
+
             }
         }
-    }
+
     }catch (Exception e){
     System.out.println(e);
 }finally {
