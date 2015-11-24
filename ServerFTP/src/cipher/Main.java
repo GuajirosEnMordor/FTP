@@ -51,13 +51,15 @@ public class Main {
                 String partesUP[] = user.split("#");
 
                 for (int i = 0; i < Accounts.length; i++) {
-                    if (partesUP[0] == Accounts[i][0]) {
-                        if (partesUP[1] == Accounts[i][1]){
+                    if (partesUP[0].equals(Accounts[i][0])) {
+                        if (partesUP[1].equals(Accounts[i][1])){
                             Uservalido = "yes";
                             System.out.println("\n>Usuario valido.");
                         }
                     }
                 }
+
+                System.out.println(""+Uservalido);
 
                 salida.writeObject(""+Uservalido);
             }
