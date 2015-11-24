@@ -4,16 +4,27 @@ package cipher;
 
 import java.net.*;
 import java.io.*;
-import java.util.*;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException{
 
         String help = "La lista de comandos es la siguiente: \n\n Put ( put 'direccion del archivo') Esto enviara un archivo al servidor. \n Get (get 'direccion del archivo) Esto recibira un archivo del servidor. \n Quit, para salir de la aplicacion \n Delete (delete 'nombre del archivo), elimina un archivo del servidor \n List (list), se usa para ver la lista de archivos disponibles en el servidor \n";
 
+        //Usuarios registrados.
+        String[][] Accounts={{"menor","beta"},{"mayor","papi"},{"diablon","bigcola"}};
+
+        String user;
+
+        //Para el servidor.
+
         Socket ElSocket = null;
         ServerSocket Server;
+        ObjectOutputStream salida = null;
+        ObjectInputStream entrada = null;
+
+        int Uservalido=0;
+
 
         try {
 
@@ -22,7 +33,29 @@ public class Main {
             System.out.println("\n>Esperando conexcion de un cliente.");
             ElSocket=Server.accept();
             System.out.println("\n>Conexcion con cliente exitosa.");
-            System.out.println("\n>Esperando un comando desde el servidor.");
+            System.out.println("\n>Esperando informacion del usuario.");
+
+            salida=new ObjectOutputStream(ElSocket.getOutputStream());
+            entrada=new ObjectInputStream(ElSocket.getInputStream());
+
+            if(Uservalido==0){
+
+                //Recibir user del cliente.
+
+
+
+                String partesUP[]=user.split("#");
+
+                //Validacion.
+
+                for(int i=0;i<Accounts.length;i++) {
+                    if(partesUP[0]==Accounts[i][0]){
+                        if(partesUP[1]==Accounts[i][1])
+                            Uservalido=1;
+
+                        }
+                    }
+                }
 
         } catch (IOException e) {
             System.out.println(e);

@@ -2,37 +2,40 @@ package cipher;
 
 //Created by Heradocles and Mendez.
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Console {
 
         public static void menu(){
+
         //Variables y demas.
+
         Scanner reader=new Scanner(System.in);
         String ip;
-        String session="no";
+
+        int uservalido=0;
+
         String Directory;
         String DDirectory;
 
-        //Para la validacion en servidor.
-        String[][] Accounts={{"menor","beta"},{"mayor","papi"},{"diablon","bigcola"}};
-
-        //Para introducir en el cliente.
         String user;
 
         String comandoftp;
         String direccionarchivo;
 
+            //Para el cliente.
+
+            Socket Cliente;
+            ObjectOutputStream salida=null;
+            ObjectInputStream entrada=null;
+
         System.out.println(">Bienvenido. ");
         System.out.print("\n>Por favor indique su IP o el nombre de su maquina. \n>");
             ip=reader.nextLine();
 
-
-//Iniciar Server.
-            Socket Cliente;
 
 try{
     Cliente=new Socket(""+ip,9000);
@@ -43,24 +46,23 @@ try{
 
         System.out.println(">Conexion establecida.");
 
-            if(session.equals("no")){
+//Verificacion.
+
+            if(uservalido==0){
                 //Pedir clave y usuario, y separarlo.
         System.out.print("\n>Indique su usuario y clave (usuario#clave): \n>");
             user=reader.nextLine();
-            String partesUP[]=user.split("#");
 
-            //Validacion.
+                salida.writeObject(user);
 
-                for(int i=0;i<Accounts.length;i++) {
-                    if(partesUP[0]==Accounts[i][0]){
-                    if(partesUP[1]==Accounts[i][1])
-                        session="yes";
-                    if(session.equals("no")){
-                        System.out.println("Usuario invalido.");
-                        }
-                    }
+                if(uservalido==0){
+                    System.out.println("\n>Usuario invalido, intente de nuevo.");
                 }
             }
+    }catch (IOException e){
+    System.out.println(e);
+}
+
 
         System.out.println("\n>Usuario valido, por favor espere.");
 
@@ -132,10 +134,6 @@ try{
             }
         }
 
-
-    }catch (IOException e){
-        System.out.println(e);
-    }
 
   }
 
