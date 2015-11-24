@@ -42,29 +42,28 @@ public class Main {
 
             while (Uservalido==0) {
 
-
                 //Recibir user del cliente.
 
                 user = (String) entrada.readObject();
+
+                System.out.println(""+user);
+
                 String partesUP[] = user.split("#");
 
-                //Validacion.
-
+                System.out.println(""+partesUP[0]);
+                System.out.println(""+partesUP[1]);
 
                 for (int i = 0; i < Accounts.length; i++) {
                     if (partesUP[0] == Accounts[i][0]) {
-                        if (partesUP[1] == Accounts[i][1])
-                            Uservalido = 1;
+                        if (partesUP[1] == Accounts[i][1]){
+                            Uservalido = 1;}
                     }
                 }
+
+                salida.writeObject(""+Uservalido);
             }
 
-                //Enviar respuesta.
-
-salida.writeObject(""+Uservalido);
-
-
-        } catch (Exception e) {
+        } catch (Exception e ) {
             System.out.println(e);
         }finally {
             entrada.close(); salida.close();

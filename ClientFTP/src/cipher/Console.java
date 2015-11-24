@@ -39,6 +39,8 @@ public class Console {
 
 try{
     Cliente=new Socket(""+ip,9000);
+    salida=new ObjectOutputStream(Cliente.getOutputStream());
+    entrada=new ObjectInputStream(Cliente.getInputStream());
 
 
         System.out.println("\n>Espere, por favor.");
