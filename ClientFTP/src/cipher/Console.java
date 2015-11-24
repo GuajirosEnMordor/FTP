@@ -16,7 +16,7 @@ public class Console {
         Scanner reader=new Scanner(System.in);
         String ip;
 
-        int uservalido=0;
+        String uservalido="no";
 
         String Directory;
         String DDirectory;
@@ -50,16 +50,16 @@ try{
 
 //Verificacion.
 
-    while (uservalido==0) {
+    while (uservalido=="no") {
             //Pedir clave y usuario, y separarlo.
             System.out.print("\n>Indique su usuario y clave (usuario#clave): \n>");
             user = reader.nextLine();
 
             salida.writeObject(user);
 
-            uservalido = (int) entrada.readObject();
+            uservalido = (String) entrada.readObject();
 
-            if (uservalido == 0) {
+            if (uservalido == "no") {
                 System.out.println("\n>Usuario invalido, intente de nuevo.");
 
             }

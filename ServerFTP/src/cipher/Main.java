@@ -23,7 +23,7 @@ public class Main {
         ObjectOutputStream salida = null;
         ObjectInputStream entrada = null;
 
-        int Uservalido=0;
+        String Uservalido="no";
 
 
         try {
@@ -40,7 +40,7 @@ public class Main {
             salida=new ObjectOutputStream(ElSocket.getOutputStream());
             entrada=new ObjectInputStream(ElSocket.getInputStream());
 
-            while (Uservalido==0) {
+            while (Uservalido=="no") {
 
                 //Recibir user del cliente.
 
@@ -56,17 +56,18 @@ public class Main {
                 for (int i = 0; i < Accounts.length; i++) {
                     if (partesUP[0] == Accounts[i][0]) {
                         if (partesUP[1] == Accounts[i][1]){
-                            Uservalido = 1;}
+                            Uservalido = "yes";}
                     }
                 }
 
                 salida.writeObject(""+Uservalido);
+
+                System.out.println(""+Uservalido);
             }
 
         } catch (Exception e ) {
             System.out.println(e);
         }finally {
-            entrada.close(); salida.close();
         }
     }
 }
