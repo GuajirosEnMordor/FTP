@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class Console {
 
-        public static void menu(){
+    public static void main(String[] args)throws IOException{
 
         //Variables y demas.
 
@@ -42,10 +42,7 @@ try{
     salida=new ObjectOutputStream(Cliente.getOutputStream());
     entrada=new ObjectInputStream(Cliente.getInputStream());
 
-
         System.out.println("\n>Espere, por favor.");
-        //Verificar conexcion.
-
         System.out.println(">Conexion establecida.");
 
 //Verificacion.
@@ -68,6 +65,7 @@ try{
     }catch (Exception e){
     System.out.println(e);
 }finally {
+    entrada.close(); salida.close();
 
 }
 
@@ -141,9 +139,9 @@ try{
                 case "Ups":
                     System.out.println("\nftp>El comando no se encuentra disponible. Intente de nuevo.");
             }
-        }
+        }}}
 
 
-  }
 
-}
+
+
