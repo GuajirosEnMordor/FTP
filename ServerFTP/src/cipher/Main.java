@@ -25,6 +25,8 @@ public class Main {
 
         String Uservalido="no";
 
+        InetAddress ipcliente;
+
 
         try {
 
@@ -40,33 +42,28 @@ public class Main {
             salida=new ObjectOutputStream(ElSocket.getOutputStream());
             entrada=new ObjectInputStream(ElSocket.getInputStream());
 
-            while (Uservalido=="no") {
+            while (Uservalido.equals("no")) {
 
                 //Recibir user del cliente.
 
                 user = (String) entrada.readObject();
 
-                System.out.println(""+user);
-
                 String partesUP[] = user.split("#");
-
-                System.out.println(""+partesUP[0]);
-                System.out.println(""+partesUP[1]);
 
                 for (int i = 0; i < Accounts.length; i++) {
                     if (partesUP[0] == Accounts[i][0]) {
                         if (partesUP[1] == Accounts[i][1]){
-                            Uservalido = "yes";}
+                            Uservalido = "yes";
+                            System.out.println("\n>Usuario valido.");
+                        }
                     }
                 }
 
                 salida.writeObject(""+Uservalido);
-
-                System.out.println(""+Uservalido);
             }
 
         } catch (Exception e ) {
-            System.out.println(e);
+            e.printStackTrace();
         }finally {
             entrada.close();
             salida.close();

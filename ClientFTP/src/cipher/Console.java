@@ -3,6 +3,7 @@ package cipher;
 //Created by Heradocles and Mendez.
 
 import java.io.*;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Objects;
 import java.util.Scanner;
@@ -15,6 +16,7 @@ public class Console {
 
         Scanner reader=new Scanner(System.in);
         String ip;
+        InetAddress iplocal;
 
         String uservalido="no";
 
@@ -47,7 +49,7 @@ try{
 
 //Verificacion.
 
-    while (uservalido=="no") {
+    while (uservalido.equals("no")) {
             //Pedir clave y usuario, y separarlo.
             System.out.print("\n>Indique su usuario y clave (usuario#clave): \n>");
             user = reader.nextLine();
@@ -56,17 +58,17 @@ try{
 
             uservalido = (String) entrada.readObject();
 
-            if (uservalido == "no") {
+            if (uservalido.equals("no")) {
                 System.out.println("\n>Usuario invalido, intente de nuevo.");
-
             }
         }
 
     }catch (Exception e){
-    System.out.println(e);
-}finally {
-    entrada.close(); salida.close();
+    e.printStackTrace();
 
+}finally {
+    entrada.close();
+    salida.close();
 }
 
 
@@ -90,7 +92,7 @@ try{
                     break;
 
                 case "list":
-                    System.out.print("\nftp>Por favor indique la direccion de la carpeta. \nconexcion>");
+                    System.out.print("\nftp>Por favor indique la direccion de la carpeta. \nconexion>");
                     Directory=reader.nextLine();
 
                     System.out.printf("\nftp>La lista de archivos es la siguinte:\n ");
