@@ -62,6 +62,9 @@ public class Main {
                 salida.writeObject(""+Uservalido);
             }
 
+            ipcliente=(InetAddress)entrada.readObject();
+            System.out.println("\n>IP del cliente es: "+ipcliente);
+
         } catch (Exception e ) {
             e.printStackTrace();
         }finally {

@@ -5,7 +5,6 @@ package cipher;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.util.Objects;
 import java.util.Scanner;
 
 public class Console {
@@ -62,6 +61,8 @@ try{
                 System.out.println("\n>Usuario invalido, intente de nuevo.");
             }
         }
+    iplocal=Cliente.getInetAddress();
+    salida.writeObject(iplocal);
 
     }catch (Exception e){
     e.printStackTrace();
@@ -141,7 +142,9 @@ try{
                 case "Ups":
                     System.out.println("\nftp>El comando no se encuentra disponible. Intente de nuevo.");
             }
-        }}}
+        }
+    }
+}
 
 
 
