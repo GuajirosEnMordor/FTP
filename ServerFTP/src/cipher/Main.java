@@ -29,7 +29,9 @@ public class Main {
         try {
 
             System.out.println("\n>Iniciando servidor.");
+
             Server=new ServerSocket(9000);
+
             System.out.println("\n>Esperando conexcion de un cliente.");
             ElSocket=Server.accept();
             System.out.println("\n>Conexcion con cliente exitosa.");
@@ -42,8 +44,7 @@ public class Main {
 
                 //Recibir user del cliente.
 
-
-
+                user=(String)entrada.readObject();
                 String partesUP[]=user.split("#");
 
                 //Validacion.
@@ -52,13 +53,19 @@ public class Main {
                     if(partesUP[0]==Accounts[i][0]){
                         if(partesUP[1]==Accounts[i][1])
                             Uservalido=1;
-
                         }
-                    }
-                }
+                        }
+            }
 
-        } catch (IOException e) {
+                //Enviar respuesta.
+
+salida.writeObject(""+Uservalido);
+
+
+        } catch (Exception e) {
             System.out.println(e);
+        }finally {
+            entrada.close(); salida.close();
         }
     }
 }
