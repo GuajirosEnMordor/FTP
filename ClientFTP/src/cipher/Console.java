@@ -4,144 +4,142 @@ package cipher;
 
 import java.io.*;
 import java.net.InetAddress;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
 
 public class Console {
 
-    public static void main(String[] args)throws IOException{
+    public static void main(String[] args) throws IOException {
 
         //Variables y demas.
 
-        Scanner reader=new Scanner(System.in);
+        Scanner reader = new Scanner(System.in);
         String ip;
         InetAddress iplocal;
 
-        String uservalido="no";
+        String uservalido = "no";
 
         String Directory;
         String DDirectory;
+        String help;
+        String respuesta;
 
         String user;
 
         String comandoftp;
         String direccionarchivo;
 
-            //Para el cliente.
-
-            Socket Cliente;
-            ObjectOutputStream salida=null;
-            ObjectInputStream entrada=null;
+        ServerSocket Server = null;
+        Socket Cliente = null;
+        ObjectOutputStream salida = null;
+        ObjectInputStream entrada = null;
 
         System.out.println(">Bienvenido. ");
         System.out.print("\n>Por favor indique su IP o el nombre de su maquina. \n>");
-            ip=reader.nextLine();
+        ip = reader.nextLine();
 
 
-try{
-    Cliente=new Socket(""+ip,9000);
-    salida=new ObjectOutputStream(Cliente.getOutputStream());
-    entrada=new ObjectInputStream(Cliente.getInputStream());
+        try {
+            Cliente = new Socket("" + ip, 9000);
+            salida = new ObjectOutputStream(Cliente.getOutputStream());
+            entrada = new ObjectInputStream(Cliente.getInputStream());
 
-        System.out.println("\n>Espere, por favor.");
-        System.out.println(">Conexion establecida.");
+            System.out.println("\n>Espere, por favor.");
+            System.out.println(">Conexion establecida.");
 
 //Verificacion.
 
-    while (uservalido.equals("no")) {
-            //Pedir clave y usuario, y separarlo.
-            System.out.print("\n>Indique su usuario y clave (usuario#clave): \n>");
-            user = reader.nextLine();
+            while (uservalido.equals("no")) {
+                //Pedir clave y usuario, y separarlo.
+                System.out.print("\n>Indique su usuario y clave (usuario#clave): \n>");
+                user = reader.nextLine();
 
-            salida.writeObject(user);
+                salida.writeObject(user);
 
-            uservalido = (String) entrada.readObject();
+                uservalido = (String) entrada.readObject();
 
-            if (uservalido.equals("no")) {
-                System.out.println("\n>Usuario invalido, intente de nuevo.");
+                if (uservalido.equals("no")) {
+                    System.out.println("\n>Usuario invalido, intente de nuevo.");
+                }
             }
-        }
-    iplocal=Cliente.getInetAddress();
-    salida.writeObject(iplocal);
+            iplocal = Cliente.getInetAddress();
+            salida.writeObject(iplocal);
 
-    }catch (Exception e){
-    e.printStackTrace();
+            System.out.println("\n>Usuario valido, por favor espere.");
 
-}finally {
-    entrada.close();
-    salida.close();
-}
+            while (true) {
+                System.out.print("\nftp>Esperando un comando.\nftp>");
+                comandoftp = reader.nextLine();
 
+                switch (comandoftp) {
 
+                    case "get":
+                        //Hacer el get
+                        System.out.println("\nftp>El archivo deseado ha sido descargado.");
+                        break;
 
-        System.out.println("\n>Usuario valido, por favor espere.");
+                    case "put":
+                        //hacer el put
+                        System.out.println("\nftp>El archivo deseado ha sido subido al servidor.");
+                        break;
 
-        while (true){
-            System.out.print("\nftp>Esperando un comando.\nftp>");
-            comandoftp=reader.nextLine();
+                    case "list":
+                        System.out.print("\nftp>Por favor indique la direccion de la carpeta. \nconexion>");
+                        Directory = reader.nextLine();
 
-            switch (comandoftp){
+                        System.out.printf("\nftp>La lista de archivos es la siguinte:\n ");
 
-                case "get":
-                    //Hacer el get
-                    System.out.println("\nftp>El archivo deseado ha sido descargado.");
-                    break;
+                        File aDirectory = new File(Directory);
 
-                case "put":
-                    //hacer el put
-                    System.out.println("\nftp>El archivo deseado ha sido subido al servidor.");
-                    break;
+                        String[] filesInDir = aDirectory.list();
 
-                case "list":
-                    System.out.print("\nftp>Por favor indique la direccion de la carpeta. \nconexion>");
-                    Directory=reader.nextLine();
+                        for (int i = 0; i < filesInDir.length; i++) {
+                            System.out.println("\nftp> " + filesInDir[i]);
+                        }
+                        break;
 
-                    System.out.printf("\nftp>La lista de archivos es la siguinte:\n ");
+                    case "delete":
 
-                    File aDirectory = new File(Directory);
-
-                    String[] filesInDir = aDirectory.list();
-
-                    for ( int i=0; i<filesInDir.length; i++ ) {
-                        System.out.println("\nftp> " + filesInDir[i]);
-                    }
-                    break;
-
-                case "delete":
-                    try{
                         System.out.print("\nftp>Por favor indique el archivo(La direccion del mismo) que desea eliminar. \n>");
-                        DDirectory=reader.nextLine();
+                        DDirectory = reader.nextLine();
+                        salida.writeObject(DDirectory);
 
-                        File file = new File(DDirectory);
+                        respuesta=(String)entrada.readObject();
+                        System.out.println("\n>"+respuesta);
 
-                        if(file.delete()){
-                            System.out.println(file.getName() + "\nftp>El archivo no deseado, ha sido borrado.");
-                        }else {
-                            System.out.println("\nftp>El archivo no se encuentra disponible.");
-                        }
+                        break;
 
-                    }catch(Exception e){
-                        e.printStackTrace();
-                        }
-                    break;
+                    case "quit":
 
-                case "quit":
-                    System.out.println("\nftp>Cerrando las conexciones, espere un momento.");
-                    System.out.println("ftp>Hasta luego, gracias por usar nuestro intento de servidor FTP.");
-                    System.exit(0);
-                    break;
+                        salida.writeObject(comandoftp);
 
-                case "help":
-                    //traer help del servidor, pero por ahora... Te jodiste.
+                        System.out.println("\nftp>Cerrando las conexiones, espere un momento.");
+                        Cliente.close();
+                        entrada.close();
+                        salida.close();
 
-                    String help = "La lista de comandos es la siguiente: \n\n >Put ( put 'direccion del archivo') Esto enviara un archivo al servidor. \n >Get (get 'direccion del archivo) Esto recibira un archivo del servidor. \n >Quit, para salir de la aplicacion. \n >Delete (delete 'nombre del archivo), elimina un archivo del servidor. \n >List (list), se usa para ver la lista de archivos disponibles en el servidor.";
-                    System.out.println("\nftp>"+help);
-                    break;
+                        System.out.println("ftp>Hasta luego, gracias por usar nuestro intento de servidor FTP.");
+                        System.exit(0);
+                        break;
 
-                default:
-                case "Ups":
-                    System.out.println("\nftp>El comando no se encuentra disponible. Intente de nuevo.");
+                    case "help":
+
+                        salida.writeObject(comandoftp);
+                        help = (String) entrada.readObject();
+
+                        System.out.println(""+help);
+
+
+                        break;
+
+                    default:
+                    case "Ups":
+                        System.out.println("\nftp>El comando no se encuentra disponible. Intente de nuevo.");
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
