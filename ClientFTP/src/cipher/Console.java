@@ -93,27 +93,34 @@ public class Console {
                         Archivo = reader.nextLine();
                         salida.writeObject(Archivo);
 
-                        try{
-                            Cliente1= new Socket("localhost",9001);
-                            File f= new File("D:\\Programacion\\Proyectos ST\\FTP\\Archivos cliente\\"+Archivo);
-                            byte[] bytes=new byte[999999];
-                            entry= new FileInputStream(f);
-                            exit= Cliente1.getOutputStream();
-                            int count;
-                            while ((count=entry.read(bytes))>0){
-                                exit.write(bytes,0,count);
+                        String carpeta = "D:\\Programacion\\Proyectos ST\\FTP\\Archivos cliente\\"+Archivo;
+                        File Folder = new File(carpeta);
+                        if(Folder.exists()) {
+
+                            try {
+                                Cliente1 = new Socket("localhost", 9001);
+                                File f = new File("D:\\Programacion\\Proyectos ST\\FTP\\Archivos cliente\\" + Archivo);
+                                byte[] bytes = new byte[999999];
+                                entry = new FileInputStream(f);
+                                exit = Cliente1.getOutputStream();
+                                int count;
+                                while ((count = entry.read(bytes)) > 0) {
+                                    exit.write(bytes, 0, count);
+                                }
+
+                                System.out.println("\nftp>El archivo deseado ha sido subido al servidor.");
+
+                            } catch (Exception e) {
+
+                                e.printStackTrace();
+
+                            } finally {
+                                entry.close();
+                                exit.close();
+                                Cliente1.close();
                             }
-
-                            System.out.println("\nftp>El archivo deseado ha sido subido al servidor.");
-
-                        }catch (Exception e){
-
-                            e.printStackTrace();
-
-                        }finally {
-                            entry.close();
-                            exit.close();
-                            Cliente1.close();
+                        }else {
+                            System.out.println("El Archivo no se encuentra disponible o no existe");
                         }
 
                         break;
@@ -127,9 +134,6 @@ public class Console {
                         Archivo = reader.nextLine();
                         salida.writeObject(Archivo);
 
-                        String carpeta = "D:\\Programacion\\Proyectos ST\\FTP\\Archivos cliente\\"+Archivo;
-                        File Folder = new File(carpeta);
-                        if(Folder.exists()) {
                             try {
                                 Server = new ServerSocket(9002);
                                 Cliente1 = Server.accept();
@@ -150,9 +154,6 @@ public class Console {
                                 entry.close();
                                 exit.close();
                             }
-                        }else {
-                            System.out.println("El Archivo no se encuentra disponible o no existe");
-                        }
 
                         break;
 

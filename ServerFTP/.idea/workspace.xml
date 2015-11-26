@@ -26,7 +26,7 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/cipher/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="2.0427237">
+            <state vertical-scroll-proportion="1.293725">
               <caret line="153" column="97" selection-start-line="153" selection-start-column="97" selection-end-line="153" selection-end-column="97" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -476,12 +476,12 @@
       <workItem from="1448500978555" duration="6459000" />
       <workItem from="1448508891061" duration="22000" />
       <workItem from="1448509020939" duration="386000" />
-      <workItem from="1448511459688" duration="399000" />
+      <workItem from="1448511459688" duration="893000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="27851000" />
+    <option name="totallyTimeSpent" value="28345000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="22" width="1456" height="886" extended-state="6" />
@@ -725,7 +725,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/cipher/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="2.0427237">
+        <state vertical-scroll-proportion="1.293725">
           <caret line="153" column="97" selection-start-line="153" selection-start-column="97" selection-end-line="153" selection-end-column="97" />
           <folding>
             <element signature="imports" expanded="true" />

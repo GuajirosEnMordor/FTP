@@ -26,8 +26,8 @@
       <file leaf-file-name="Console.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/cipher/Console.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.27236316">
-              <caret line="131" column="43" selection-start-line="129" selection-start-column="24" selection-end-line="131" selection-end-column="43" />
+            <state vertical-scroll-proportion="1.5206943">
+              <caret line="155" column="29" selection-start-line="155" selection-start-column="29" selection-end-line="155" selection-end-column="29" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -493,12 +493,12 @@
       <workItem from="1448508757107" duration="28000" />
       <workItem from="1448508876861" duration="36000" />
       <workItem from="1448509006909" duration="402000" />
-      <workItem from="1448511463354" duration="396000" />
+      <workItem from="1448511463354" duration="890000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="42718000" />
+    <option name="totallyTimeSpent" value="43212000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="22" width="1456" height="886" extended-state="6" />
@@ -919,8 +919,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/cipher/Console.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.27236316">
-          <caret line="131" column="43" selection-start-line="129" selection-start-column="24" selection-end-line="131" selection-end-column="43" />
+        <state vertical-scroll-proportion="1.5206943">
+          <caret line="155" column="29" selection-start-line="155" selection-start-column="29" selection-end-line="155" selection-end-column="29" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
