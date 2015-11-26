@@ -86,16 +86,17 @@ public class Console {
 
                     case "put":
 
-                        salida.writeObject(comandoftp);
-
                         System.out.print("\nftp>Por favor indique el archivo(con su formato) que desea subir al servidor. \n>");
 
                         Archivo = reader.nextLine();
-                        salida.writeObject(Archivo);
 
                         String carpeta = "D:\\Programacion\\Proyectos ST\\FTP\\Archivos cliente\\"+Archivo;
                         File Folder = new File(carpeta);
+
                         if(Folder.exists()) {
+
+                            salida.writeObject(comandoftp);
+                            salida.writeObject(Archivo);
 
                             try {
                                 Cliente1 = new Socket("localhost", 9001);
@@ -120,7 +121,7 @@ public class Console {
                                 Cliente1.close();
                             }
                         }else {
-                            System.out.println("El Archivo no se encuentra disponible o no existe");
+                            System.out.println("\nftp>El Archivo no se encuentra disponible o no existe");
                         }
 
                         break;
@@ -130,9 +131,12 @@ public class Console {
                         salida.writeObject(comandoftp);
 
                         System.out.print("\nftp>Por favor indique el archivo(con su formato) que desea recibir del servidor.. \n>");
-
                         Archivo = reader.nextLine();
                         salida.writeObject(Archivo);
+
+                        respuesta=(String)entrada.readObject();
+
+                        if (respuesta.equals("si")) {
 
                             try {
                                 Server = new ServerSocket(9002);
@@ -143,9 +147,8 @@ public class Console {
                                 int count;
                                 while ((count = entry.read(bytes)) > 0) {
                                     exit.write(bytes, 0, count);
+                                    System.out.println("\nftp>El Archivo deseado ha sido recibido del servidor.");
                                 }
-
-                                System.out.println("\nftp>El Archivo deseado ha sido recibido del servidor.");
                             } catch (Exception e) {
                                 e.printStackTrace();
                             } finally {
@@ -154,6 +157,10 @@ public class Console {
                                 entry.close();
                                 exit.close();
                             }
+
+                        }else{
+                            System.out.println("\nftp>El archivo deseado no se encuentra disponible o no existe.");
+                        }
 
                         break;
 

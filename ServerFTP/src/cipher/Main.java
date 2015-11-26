@@ -106,9 +106,10 @@ public class Main {
                             int count;
                             while((count=entradafile.read(bytes))>0){
                                 salidafile.write(bytes,0,count);
+                                System.out.println("\nftp>Tarea completada.");
                             }
 
-                            System.out.println("\nftp>Tarea completada.");
+
                         }catch (Exception e){
                             e.printStackTrace();
                         }finally {
@@ -122,13 +123,17 @@ public class Main {
 
                     case "get":
 
-                        System.out.printf("\nftp>El usuario ha selecionado get.");
+                        System.out.println("\nftp>El usuario ha selecionado get.");
 
                         archivo=(String)entrada.readObject();
 
                         String carpeta = "D:\\Programacion\\Proyectos ST\\FTP\\Archivos cliente\\"+archivo;
                         File Folder = new File(carpeta);
                         if(Folder.exists()) {
+
+                            respuesta="si";
+                            salida.writeObject(respuesta);
+
                             try {
                                 ElSocket1 = new Socket("" + ipcliente, 9002);
                                 File f = new File("D:\\Programacion\\Proyectos ST\\FTP\\Archivos servidor\\" + archivo);
@@ -151,7 +156,9 @@ public class Main {
                                 ElSocket1.close();
                             }
                         }else{
-                            System.out.println("El Archivo no se encuentra disponible o no existe");
+                            System.out.println("\nftp>El Archivo no se encuentra disponible o no existe.\n");
+                            respuesta="no";
+                            salida.writeObject(respuesta);
                         }
 
                         break;
