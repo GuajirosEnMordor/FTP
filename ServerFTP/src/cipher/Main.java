@@ -76,15 +76,18 @@ public class Main {
             ipcliente = (InetAddress) entrada.readObject();
             System.out.println("\n>IP del cliente es: " + ipcliente);
 
-            //Comandos que el cliente puede usar.
-
+            System.out.println("\nftp>Esperando un comando.");
             while (true) {
                 comandocliente = (String) entrada.readObject();
                 switch (comandocliente) {
 
                     case"delete":
 
+                        System.out.println("\nftp> El cliente ha seleccionado delete.");
+
                         respuesta=(String)entrada.readObject();
+
+                        System.out.println("\nftp> Se desea eliminar el siguiente archivo: \nftp>"+respuesta);
 
                         try {
                             File file = new File(respuesta);
@@ -108,20 +111,24 @@ public class Main {
                         break;
 
                     case "help":
-                        System.out.println("\n>Enviando informacion al usuario.");
+
+                        System.out.println("\nftp>El cliente, ha seleccionado help.");
+
+                        System.out.println("\nftp>Enviando informacion al usuario.");
                         salida.writeObject(help);
                         break;
 
                     case "quit":
 
-                        System.out.println("\n>Cerrando las conexiones, espere. ");
+                        System.out.println("\nftp>El cliente ha seleccionado salir.");
+                        System.out.println("\nftp>Cerrando las conexiones, espere. ");
 
                         entrada.close();
                         salida.close();
                         ElSocket.close();
                         Server.close();
 
-                        System.out.println("\n>Gracias por usar este intento de servidor ftp.");
+                        System.out.println("\nftp>Gracias por usar este intento de servidor ftp.");
                         System.exit(0);
 
                         break;

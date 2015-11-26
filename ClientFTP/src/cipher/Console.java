@@ -101,12 +101,14 @@ public class Console {
 
                     case "delete":
 
+                        salida.writeObject(comandoftp);
+
                         System.out.print("\nftp>Por favor indique el archivo(La direccion del mismo) que desea eliminar. \n>");
                         DDirectory = reader.nextLine();
                         salida.writeObject(DDirectory);
 
                         respuesta=(String)entrada.readObject();
-                        System.out.println("\n>"+respuesta);
+                        System.out.println(""+respuesta);
 
                         break;
 
