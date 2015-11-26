@@ -23,7 +23,7 @@ public class Main {
         String respuesta;
         String enviar;
         String archivo;
-        String carpeta;
+
 
         //Para el servidor.
 
@@ -126,26 +126,32 @@ public class Main {
 
                         archivo=(String)entrada.readObject();
 
-                        try{
-                            ElSocket1= new Socket(""+ipcliente,9002);
-                            File f= new File("D:\\Programacion\\Proyectos ST\\FTP\\Archivos servidor\\"+archivo);
-                            byte[] bytes=new byte[999999];
-                            entradafile= new FileInputStream(f);
-                            salidafile= ElSocket1.getOutputStream();
-                            int count;
-                            while ((count=entradafile.read(bytes))>0) {
-                                salidafile.write(bytes,0,count);
+                        String carpeta = "D:\\Programacion\\Proyectos ST\\FTP\\Archivos cliente\\"+archivo;
+                        File Folder = new File(carpeta);
+                        if(Folder.exists()) {
+                            try {
+                                ElSocket1 = new Socket("" + ipcliente, 9002);
+                                File f = new File("D:\\Programacion\\Proyectos ST\\FTP\\Archivos servidor\\" + archivo);
+                                byte[] bytes = new byte[999999];
+                                entradafile = new FileInputStream(f);
+                                salidafile = ElSocket1.getOutputStream();
+                                int count;
+                                while ((count = entradafile.read(bytes)) > 0) {
+                                    salidafile.write(bytes, 0, count);
+                                }
+                                System.out.println("\nftp>Tarea completada.");
+
+                            } catch (Exception e) {
+
+                                e.printStackTrace();
+
+                            } finally {
+                                entradafile.close();
+                                salidafile.close();
+                                ElSocket1.close();
                             }
-                            System.out.println("\nftp>Tarea completada.");
-
-                        }catch (Exception e){
-
-                            e.printStackTrace();
-
-                        }finally {
-                            entradafile.close();
-                            salidafile.close();
-                            ElSocket1.close();
+                        }else{
+                            System.out.println("El Archivo no se encuentra disponible o no existe");
                         }
 
                         break;

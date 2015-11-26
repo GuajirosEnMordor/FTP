@@ -27,7 +27,7 @@ public class Console {
         String user;
 
         String comandoftp;
-        String carpeta;
+
 
         ServerSocket Server = null;
         Socket Cliente = null;
@@ -127,25 +127,31 @@ public class Console {
                         Archivo = reader.nextLine();
                         salida.writeObject(Archivo);
 
-                        try{
-                            Server=new ServerSocket(9002);
-                            Cliente1=Server.accept();
-                            entry=Cliente1.getInputStream();
-                            exit=new FileOutputStream("D:\\Programacion\\Proyectos ST\\FTP\\Archivos cliente\\"+Archivo);
-                            byte[] bytes=new byte[999999];
-                            int count;
-                            while((count=entry.read(bytes)) > 0) {
-                                exit.write(bytes,0,count);
-                            }
+                        String carpeta = "D:\\Programacion\\Proyectos ST\\FTP\\Archivos cliente\\"+Archivo;
+                        File Folder = new File(carpeta);
+                        if(Folder.exists()) {
+                            try {
+                                Server = new ServerSocket(9002);
+                                Cliente1 = Server.accept();
+                                entry = Cliente1.getInputStream();
+                                exit = new FileOutputStream("D:\\Programacion\\Proyectos ST\\FTP\\Archivos cliente\\" + Archivo);
+                                byte[] bytes = new byte[999999];
+                                int count;
+                                while ((count = entry.read(bytes)) > 0) {
+                                    exit.write(bytes, 0, count);
+                                }
 
-                            System.out.println("\nftp>El Archivo deseado ha sido recibido del servidor.");
-                        }catch (Exception e){
-                            e.printStackTrace();
-                        }finally {
-                            Cliente1.close();
-                            Server.close();
-                            entry.close();
-                            exit.close();
+                                System.out.println("\nftp>El Archivo deseado ha sido recibido del servidor.");
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            } finally {
+                                Cliente1.close();
+                                Server.close();
+                                entry.close();
+                                exit.close();
+                            }
+                        }else {
+                            System.out.println("El Archivo no se encuentra disponible o no existe");
                         }
 
                         break;
