@@ -8,6 +8,9 @@ import java.lang.String;
 import java.net.*;
 import java.io.*;
 import java.security.interfaces.ECKey;
+import java.sql.Struct;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Main {
 
@@ -76,18 +79,36 @@ public class Main {
             ipcliente = (InetAddress) entrada.readObject();
             System.out.println("\n>IP del cliente es: " + ipcliente);
 
-            System.out.println("\nftp>Esperando un comando.");
+
             while (true) {
+
+                System.out.println("\nftp>Esperando un comando.");
+
                 comandocliente = (String) entrada.readObject();
                 switch (comandocliente) {
 
+                    case "list":
+
+                        System.out.println("\nftp>El Cliente ha seleccionado list.");
+                        System.out.println("\nftp>Recolectando informacion.");
+
+                        String path="D:\\Programacion\\Proyectos ST\\FTP\\Archivos servidor";
+                        File directorio=new File(path);
+                        String [] files=directorio.list();
+
+                        System.out.println("\nftp>Enviando informacion al cliente.");
+
+                        salida.writeObject(files);
+
+                        break;
+
                     case"delete":
 
-                        System.out.println("\nftp> El cliente ha seleccionado delete.");
+                        System.out.println("\nftp>El cliente ha seleccionado delete.");
 
                         respuesta=(String)entrada.readObject();
 
-                        System.out.println("\nftp> Se desea eliminar el siguiente archivo: \nftp>"+respuesta);
+                        System.out.println("\nftp>Se desea eliminar el siguiente archivo: \nftp>"+respuesta);
 
                         try {
                             File file = new File(respuesta);

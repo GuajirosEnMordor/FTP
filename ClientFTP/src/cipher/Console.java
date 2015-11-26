@@ -6,6 +6,7 @@ import java.io.*;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Console {
@@ -20,7 +21,6 @@ public class Console {
 
         String uservalido = "no";
 
-        String Directory;
         String DDirectory;
         String help;
         String respuesta;
@@ -85,18 +85,23 @@ public class Console {
                         break;
 
                     case "list":
-                        System.out.print("\nftp>Por favor indique la direccion de la carpeta. \nconexion>");
-                        Directory = reader.nextLine();
 
-                        System.out.printf("\nftp>La lista de archivos es la siguinte:\n ");
+                        salida.writeObject(comandoftp);
 
-                        File aDirectory = new File(Directory);
+                        System.out.print("\nftp>Esperando informacion del servidor.\n");
 
-                        String[] filesInDir = aDirectory.list();
+                        String [] files=(String[])entrada.readObject();
 
-                        for (int i = 0; i < filesInDir.length; i++) {
-                            System.out.println("\nftp> " + filesInDir[i]);
+                        if (files.length == 0) {
+                            System.out.println("\nftp>El servidor no tiene archivos disponibles en este momento.");
+                        } else {
+
+                            System.out.println("\nftp>La lista de archivos es la siguiente: \n");
+                            for (String aFile : files) {
+                                System.out.println("ftp>"+aFile);
+                            }
                         }
+
                         break;
 
                     case "delete":
