@@ -2,6 +2,8 @@ package cipher;
 
 //Created by Heradocles and Mendez.
 
+import jdk.internal.util.xml.impl.Input;
+
 import java.lang.String;
 import java.net.*;
 import java.io.*;
@@ -11,7 +13,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        String help = "\n>La lista de comandos es la siguiente: \n\n Put ( put 'direccion del archivo') Esto enviara un archivo al servidor. \n Get (get 'direccion del archivo) Esto recibira un archivo del servidor. \n Quit, para salir de la aplicacion \n Delete (delete 'nombre del archivo), elimina un archivo del servidor \n List (list), se usa para ver la lista de archivos disponibles en el servidor \n";
+        String help = "\nftp>La lista de comandos es la siguiente: \n\n Put ( put 'direccion del archivo') Esto enviara un archivo al servidor. \n Get (get 'direccion del archivo) Esto recibira un archivo del servidor. \n Quit, para salir de la aplicacion \n Delete (delete 'nombre del archivo), elimina un archivo del servidor \n List (list), se usa para ver la lista de archivos disponibles en el servidor \n";
 
         //Usuarios registrados.
         String[][] Accounts = {{"menor", "beta"}, {"mayor", "papi"}, {"diablon", "bigcola"}};
@@ -20,6 +22,8 @@ public class Main {
         String comandocliente;
         String respuesta;
         String enviar;
+        String archivo;
+        String carpeta;
 
         //Para el servidor.
 
@@ -28,9 +32,15 @@ public class Main {
         ObjectOutputStream salida = null;
         ObjectInputStream entrada = null;
 
+        Socket ElSocket1=null;
+        ServerSocket Server1=null;
+
+        InputStream entradafile=null;
+        OutputStream salidafile=null;
+
         String Uservalido = "no";
 
-        InetAddress ipcliente;
+        String ipcliente;
 
 
         try {
@@ -71,7 +81,7 @@ public class Main {
                 salida.writeObject("" + Uservalido);
             }
 
-            ipcliente = (InetAddress) entrada.readObject();
+            ipcliente = (String) entrada.readObject();
             System.out.println("\n>IP del cliente es: " + ipcliente);
 
 
@@ -82,11 +92,61 @@ public class Main {
                 comandocliente = (String) entrada.readObject();
                 switch (comandocliente) {
 
-                    case "get":
+                    case "put":
+
+                        System.out.println("\nftp>El usuario ha seleccionado put.");
+                        archivo=(String)entrada.readObject();
+
+                        try{
+                            Server1=new ServerSocket(9001);
+                            ElSocket1=Server1.accept();
+                            entradafile=ElSocket1.getInputStream();
+                            salidafile=new FileOutputStream("D:\\Programacion\\Proyectos ST\\FTP\\Archivos servidor\\"+archivo);
+                            byte[] bytes=new byte[999999];
+                            int count;
+                            while((count=entradafile.read(bytes))>0){
+                                salidafile.write(bytes,0,count);
+                            }
+
+                            System.out.println("\nftp>Tarea completada.");
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }finally {
+                            Server1.close();
+                            ElSocket1.close();
+                            entradafile.close();
+                            salidafile.close();
+                        }
 
                         break;
 
-                    case "put":
+                    case "get":
+
+                        System.out.printf("\nftp>El usuario ha selecionado get.");
+
+                        archivo=(String)entrada.readObject();
+
+                        try{
+                            ElSocket1= new Socket(""+ipcliente,9002);
+                            File f= new File("D:\\Programacion\\Proyectos ST\\FTP\\Archivos servidor\\"+archivo);
+                            byte[] bytes=new byte[999999];
+                            entradafile= new FileInputStream(f);
+                            salidafile= ElSocket1.getOutputStream();
+                            int count;
+                            while ((count=entradafile.read(bytes))>0) {
+                                salidafile.write(bytes,0,count);
+                            }
+                            System.out.println("\nftp>Tarea completada.");
+
+                        }catch (Exception e){
+
+                            e.printStackTrace();
+
+                        }finally {
+                            entradafile.close();
+                            salidafile.close();
+                            ElSocket1.close();
+                        }
 
                         break;
 

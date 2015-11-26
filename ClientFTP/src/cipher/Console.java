@@ -14,7 +14,7 @@ public class Console {
 
         Scanner reader = new Scanner(System.in);
         String ip;
-        InetAddress iplocal;
+        String iplocal;
 
         String uservalido = "no";
 
@@ -22,18 +22,27 @@ public class Console {
         String help;
         String respuesta;
 
+        String Archivo;
+
         String user;
 
         String comandoftp;
-        String direccionarchivo;
+        String carpeta;
 
         ServerSocket Server = null;
         Socket Cliente = null;
+
+        Socket Cliente1=null;
+
         ObjectOutputStream salida = null;
         ObjectInputStream entrada = null;
+        InputStream entry=null;
+        OutputStream exit=null;
+
+
 
         System.out.println(">Bienvenido. ");
-        System.out.print("\n>Por favor indique su IP o el nombre de su maquina. \n>");
+        System.out.print("\n>Por favor indique la IP a donde se quiere conectar.. \n>");
         ip = reader.nextLine();
 
 
@@ -60,10 +69,14 @@ public class Console {
                     System.out.println("\n>Usuario invalido, intente de nuevo.");
                 }
             }
-            iplocal = Cliente.getInetAddress();
-            salida.writeObject(iplocal);
+
 
             System.out.println("\n>Usuario valido, por favor espere.");
+
+            System.out.print("\n>Indique SU ip. \n>");
+            iplocal=reader.nextLine();
+            salida.writeObject(iplocal);
+
 
             while (true) {
                 System.out.print("\nftp>Esperando un comando.\nftp>");
@@ -71,11 +84,69 @@ public class Console {
 
                 switch (comandoftp) {
 
-                    case "get":
+                    case "put":
+
+                        salida.writeObject(comandoftp);
+
+                        System.out.print("\nftp>Por favor indique el archivo(con su formato) que desea subir al servidor. \n>");
+
+                        Archivo = reader.nextLine();
+                        salida.writeObject(Archivo);
+
+                        try{
+                            Cliente1= new Socket("localhost",9001);
+                            File f= new File("D:\\Programacion\\Proyectos ST\\FTP\\Archivos cliente\\"+Archivo);
+                            byte[] bytes=new byte[999999];
+                            entry= new FileInputStream(f);
+                            exit= Cliente1.getOutputStream();
+                            int count;
+                            while ((count=entry.read(bytes))>0){
+                                exit.write(bytes,0,count);
+                            }
+
+                            System.out.println("\nftp>El archivo deseado ha sido subido al servidor.");
+
+                        }catch (Exception e){
+
+                            e.printStackTrace();
+
+                        }finally {
+                            entry.close();
+                            exit.close();
+                            Cliente1.close();
+                        }
 
                         break;
 
-                    case "put":
+                    case "get":
+
+                        salida.writeObject(comandoftp);
+
+                        System.out.print("\nftp>Por favor indique el archivo(con su formato) que desea recibir del servidor.. \n>");
+
+                        Archivo = reader.nextLine();
+                        salida.writeObject(Archivo);
+
+                        try{
+                            Server=new ServerSocket(9002);
+                            Cliente1=Server.accept();
+                            entry=Cliente1.getInputStream();
+                            exit=new FileOutputStream("D:\\Programacion\\Proyectos ST\\FTP\\Archivos cliente\\"+Archivo);
+                            byte[] bytes=new byte[999999];
+                            int count;
+                            while((count=entry.read(bytes)) > 0) {
+                                exit.write(bytes,0,count);
+                            }
+
+                            System.out.println("\nftp>El Archivo deseado ha sido recibido del servidor.");
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }finally {
+                            Cliente1.close();
+                            Server.close();
+                            entry.close();
+                            exit.close();
+                        }
 
                         break;
 
