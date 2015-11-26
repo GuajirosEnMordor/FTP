@@ -3,10 +3,7 @@ package cipher;
 //Created by Heradocles and Mendez.
 
 import java.io.*;
-import java.net.InetAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.ArrayList;
+import java.net.*;
 import java.util.Scanner;
 
 public class Console {
@@ -75,9 +72,11 @@ public class Console {
                 switch (comandoftp) {
 
                     case "get":
+
                         break;
 
                     case "put":
+
                         break;
 
                     case "list":
@@ -137,8 +136,8 @@ public class Console {
                         break;
 
                     default:
-                    case "Ups":
-                        System.out.println("\nftp>El comando no se encuentra disponible. Intente de nuevo.");
+                           System.out.println("\nftp>El comando no se encuentra disponible. Intente de nuevo.");
+                           break;
                 }
             }
         } catch (Exception e) {

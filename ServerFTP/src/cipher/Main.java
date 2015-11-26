@@ -2,15 +2,10 @@ package cipher;
 
 //Created by Heradocles and Mendez.
 
-import com.sun.org.apache.xpath.internal.operations.*;
-
 import java.lang.String;
 import java.net.*;
 import java.io.*;
-import java.security.interfaces.ECKey;
-import java.sql.Struct;
-import java.util.ArrayList;
-import java.util.Arrays;
+
 
 public class Main {
 
@@ -88,9 +83,11 @@ public class Main {
                 switch (comandocliente) {
 
                     case "get":
+
                         break;
 
                     case "put":
+
                         break;
 
                     case "list":
@@ -160,6 +157,9 @@ public class Main {
 
                         break;
 
+                    default:
+                           System.out.println("\nftp>El comando que el cliente trato de ejecutar no esta disponible.");
+                           break;
                 }
             }
 
