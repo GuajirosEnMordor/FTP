@@ -174,7 +174,7 @@ public class Console {
 
                         salida.writeObject(comandoftp);
 
-                        System.out.print("\nftp>Por favor indique el archivo(La direccion del mismo) que desea eliminar. \n>");
+                        System.out.print("\nftp>Por favor indique el archivo(Con su formato) que desea eliminar. \n>");
                         DDirectory = reader.nextLine();
                         salida.writeObject(DDirectory);
 

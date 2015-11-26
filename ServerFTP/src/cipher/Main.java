@@ -174,10 +174,9 @@ public class Main {
                         System.out.println("\nftp>Se desea eliminar el siguiente archivo: \nftp>"+respuesta);
 
                         try {
-                            File file = new File(respuesta);
+                            File file = new File("D:\\Programacion\\Proyectos ST\\FTP\\Archivos servidor\\"+respuesta);
 
                             if (file.delete()) {
-
                                 System.out.println(file.getName() + "\nftp>El archivo no deseado, ha sido borrado.");
                                 enviar="\nftp>El archivo no deseado, ha sido borrado.";
                                 salida.writeObject(enviar);
