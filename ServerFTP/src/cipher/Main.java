@@ -87,6 +87,12 @@ public class Main {
                 comandocliente = (String) entrada.readObject();
                 switch (comandocliente) {
 
+                    case "get":
+                        break;
+
+                    case "put":
+                        break;
+
                     case "list":
 
                         System.out.println("\nftp>El Cliente ha seleccionado list.");

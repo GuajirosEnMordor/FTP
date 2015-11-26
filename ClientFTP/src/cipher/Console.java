@@ -75,13 +75,9 @@ public class Console {
                 switch (comandoftp) {
 
                     case "get":
-                        //Hacer el get
-                        System.out.println("\nftp>El archivo deseado ha sido descargado.");
                         break;
 
                     case "put":
-                        //hacer el put
-                        System.out.println("\nftp>El archivo deseado ha sido subido al servidor.");
                         break;
 
                     case "list":
@@ -126,7 +122,7 @@ public class Console {
                         entrada.close();
                         salida.close();
 
-                        System.out.println("ftp>Hasta luego, gracias por usar nuestro intento de servidor FTP.");
+                        System.out.println("\nftp>Hasta luego, gracias por usar nuestro intento de servidor FTP.");
                         System.exit(0);
                         break;
 
