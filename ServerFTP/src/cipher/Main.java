@@ -2,12 +2,9 @@ package cipher;
 
 //Created by Heradocles and Mendez.
 
-import jdk.internal.util.xml.impl.Input;
-
 import java.lang.String;
 import java.net.*;
 import java.io.*;
-
 
 public class Main {
 
