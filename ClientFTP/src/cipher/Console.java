@@ -130,7 +130,7 @@ public class Console {
 
                         salida.writeObject(comandoftp);
 
-                        System.out.print("\nftp>Por favor indique el archivo(con su formato) que desea recibir del servidor.. \n>");
+                        System.out.print("\nftp>Por favor indique el archivo(con su formato) que desea recibir del servidor.\n>");
                         Archivo = reader.nextLine();
                         salida.writeObject(Archivo);
 
