@@ -1,9 +1,5 @@
 package cipher;
 
-//Created by Heradocles and Mendez.
-
-import java.lang.String;
-import java.net.*;
 import java.io.*;
 
 public class Main extends FTP{
@@ -12,50 +8,52 @@ public class Main extends FTP{
 
         System.out.println("\n>Iniciando servidor.");
 
-        FTP.conexion();
+        //Instanciaciond de clase.
+        FTP ftp=new FTP();
+        ftp.conexion();
+
+
 
         try{
 
-        while (true) {
+            while (true) {
 
-            System.out.println("\nftp>Esperando un comando.");
+                System.out.println("\nftp>Esperando un comando.");
 
-            respuesta = (String) entrada.readObject();
-            switch (respuesta) {
+                ftp.respuesta = (String) ftp.entrada.readObject();
+                switch (ftp.respuesta) {
 
-                case "put":
-                    FTP.put();
-                    break;
+                    case "put":
+                        ftp.put();
+                        break;
 
-                case "get":
-                    FTP.get();
-                    break;
+                    case "get":
+                        ftp.get();
+                        break;
 
-                case "list":
-                    FTP.list();
-                    break;
+                    case "list":
+                        ftp.list();
+                        break;
 
-                case "delete":
-                    FTP.delete();
-                    break;
+                    case "delete":
+                        ftp.delete();
+                        break;
 
-                case "help":
-                    FTP.help();
-                    break;
+                    case "help":
+                        ftp.help();
+                        break;
 
-                case "quit":
-                    FTP.quit();
-                    break;
+                    case "quit":
+                        ftp.quit();
+                        break;
 
-                default:
-                    System.out.println("\nftp>El comando que el cliente trato de ejecutar no esta disponible.");
-                    break;
+                    default:
+                        System.out.println("\nftp>El comando que el cliente trato de ejecutar no esta disponible.");
+                        break;
+                }
             }
-        }
         }catch (Exception e) {
             e.printStackTrace();}
 
     }
 }
-
-

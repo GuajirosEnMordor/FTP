@@ -7,29 +7,34 @@ import java.util.Scanner;
 
 public class FTP {
 
-    static public Scanner reader = new Scanner(System.in);
+    //Scan.
 
-    static public String ip;
-    static public String sesion = "no";
-    static public String respuesta;
-    static public String Archivo;
+    public Scanner reader = new Scanner(System.in);
 
-    static public ServerSocket Server = null;
-    static public Socket Cliente = null;
+    //Variables.
 
-    static public ObjectOutputStream salida = null;
-    static public ObjectInputStream entrada = null;
-    static public InputStream entry = null;
-    static public OutputStream exit = null;
+    public String ip;
+    public String sesion = "no";
+    public String respuesta;
+    public String Archivo;
 
-    public static void conexion () throws IOException {
+    //Server/Socket.
 
-        //Programa
+    public ServerSocket Server = null;
+    public Socket Cliente = null;
+
+    //Flujo de datos.
+
+    public ObjectOutputStream salida = null;
+    public ObjectInputStream entrada = null;
+    public InputStream entradafile = null;
+    public OutputStream salidafile = null;
+
+    void conexion () throws IOException {
 
         System.out.println(">Bienvenido. ");
         System.out.print("\n>Por favor indique la IP a donde se quiere conectar.. \n>");
         ip = reader.nextLine();
-
 
         try {
             Cliente = new Socket("" + ip, 9000);
@@ -39,10 +44,13 @@ public class FTP {
             System.out.println("\n>Espere, por favor.");
             System.out.println(">Conexion establecida.");
 
+
             //Verificacion.
 
             while (sesion.equals("no")) {
+
                 //Pedir clave y usuario, y separarlo.
+
                 System.out.print("\n>Indique su usuario y clave (usuario#clave): \n>");
                 respuesta = reader.nextLine();
 
@@ -58,15 +66,17 @@ public class FTP {
 
             System.out.println("\n>Usuario valido, por favor espere.");
 
-            System.out.print("\n>Indique SU ip. \n>");
-            respuesta = reader.nextLine();
+
+            InetAddress addr=Cliente.getInetAddress();
+            respuesta=addr.getHostAddress();
             salida.writeObject(respuesta);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static void put () throws IOException{
+    public void put () throws IOException{
 
         try{
 
@@ -74,8 +84,10 @@ public class FTP {
 
             Archivo = reader.nextLine();
 
-            String carpeta = "C:\\Test\\Client\\"+Archivo;
+            String carpeta = "PON LA DIRECCION AQUI"+Archivo;
             File Folder = new File(carpeta);
+
+            //Validamos.
 
             if(Folder.exists()) {
 
@@ -84,13 +96,13 @@ public class FTP {
 
 
                 Cliente = new Socket("localhost", 9001);
-                File f = new File("C:\\Test\\Client\\" + Archivo);
+                File f = new File("PON LA DIRECCION AQUI" + Archivo);
                 byte[] bytes = new byte[999999];
-                entry = new FileInputStream(f);
-                exit = Cliente.getOutputStream();
+                entradafile = new FileInputStream(f);
+                salidafile = Cliente.getOutputStream();
                 int count;
-                while ((count = entry.read(bytes)) > 0) {
-                    exit.write(bytes, 0, count);
+                while ((count = entradafile.read(bytes)) > 0) {
+                    salidafile.write(bytes, 0, count);
                 }
 
                 System.out.println("\nftp>El archivo deseado ha sido subido al servidor.");
@@ -103,13 +115,13 @@ public class FTP {
             e.printStackTrace();
 
         } finally {
-            entry.close();
-            exit.close();
+            entradafile.close();
+            salidafile.close();
             Cliente.close();
         }
     }
 
-    public static void get () throws IOException {
+    public void get () throws IOException {
 
         try {
 
@@ -121,17 +133,18 @@ public class FTP {
 
             respuesta = (String) entrada.readObject();
 
-            if (respuesta.equals("si")) {
+            //Validamos.
 
+            if (respuesta.equals("si")) {
 
                 Server = new ServerSocket(9002);
                 Cliente = Server.accept();
-                entry = Cliente.getInputStream();
-                exit = new FileOutputStream("C:\\Test\\Client\\" + Archivo);
+                entradafile = Cliente.getInputStream();
+                salidafile = new FileOutputStream("PON LA DIRECCION AQUI" + Archivo);
                 byte[] bytes = new byte[999999];
                 int count;
-                while ((count = entry.read(bytes)) > 0) {
-                    exit.write(bytes, 0, count);
+                while ((count = entradafile.read(bytes)) > 0) {
+                    salidafile.write(bytes, 0, count);
                     System.out.println("\nftp>El Archivo deseado ha sido recibido del servidor.");
                 }
             } else {
@@ -142,12 +155,12 @@ public class FTP {
         } finally {
             Cliente.close();
             Server.close();
-            entry.close();
-            exit.close();
+            entradafile.close();
+            salidafile.close();
         }
     }
 
-    public static void list (){
+    public void list (){
         try {
 
             salida.writeObject(respuesta);
@@ -155,6 +168,8 @@ public class FTP {
             System.out.print("\nftp>Esperando informacion del servidor.\n");
 
             String[] files = (String[]) entrada.readObject();
+
+            //Se valida el String Array para ver que respuesta imprimir.
 
             if (files.length == 0) {
                 System.out.println("\nftp>El servidor no tiene archivos disponibles en este momento.");
@@ -170,7 +185,7 @@ public class FTP {
         }
     }
 
-    public static void delete () throws IOException{
+    public void delete () throws IOException{
 
         try {
 
@@ -189,12 +204,13 @@ public class FTP {
 
     }
 
-    public static void quit () throws IOException{
+    public void quit () throws IOException{
 
         try {
 
-            salida.writeObject(respuesta);
+            //Procedemos a cerrar todos los canales abiertos.
 
+            salida.writeObject(respuesta);
             System.out.println("\nftp>Cerrando las conexiones, espere un momento.");
             Cliente.close();
             entrada.close();
@@ -207,7 +223,7 @@ public class FTP {
         }
     }
 
-    public static void help () {
+    public void help () {
         try {
 
             salida.writeObject(respuesta);
@@ -219,4 +235,6 @@ public class FTP {
             e.printStackTrace();
         }
     }
+
 }
+
