@@ -124,7 +124,7 @@ public class Main {
 
                         archivo=(String)entrada.readObject();
 
-                        String carpeta = "D:\\Programacion\\Proyectos ST\\FTP\\Archivos cliente\\"+archivo;
+                        String carpeta = "D:\\Programacion\\Proyectos ST\\FTP\\Archivos servidor\\"+archivo;
                         File Folder = new File(carpeta);
                         if(Folder.exists()) {
 
