@@ -11,83 +11,72 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         String help = "\nftp>La lista de comandos es la siguiente: \n\n Put ( put 'direccion del archivo') Esto enviara un archivo al servidor. \n Get (get 'direccion del archivo) Esto recibira un archivo del servidor. \n Quit, para salir de la aplicacion \n Delete (delete 'nombre del archivo), elimina un archivo del servidor \n List (list), se usa para ver la lista de archivos disponibles en el servidor \n";
-
-        //Usuarios registrados.
         String[][] Accounts = {{"menor", "beta"}, {"mayor", "papi"}, {"diablon", "bigcola"}};
+        String ip;
+        String sesion = "no";
 
-        String user;
-        String comandocliente;
         String respuesta;
-        String enviar;
         String archivo;
 
 
         //Para el servidor.
 
         Socket ElSocket = null;
-        ServerSocket Server = null;
+        ServerSocket ElServer = null;
+
+        //Flujo de datos.
         ObjectOutputStream salida = null;
         ObjectInputStream entrada = null;
-
-        Socket ElSocket1=null;
-        ServerSocket Server1=null;
-
         InputStream entradafile=null;
         OutputStream salidafile=null;
 
-        String Uservalido = "no";
-
-        String ipcliente;
-
+        System.out.println("\n>Iniciando servidor.");
 
         try {
-
-            System.out.println("\n>Iniciando servidor.");
-
-            Server = new ServerSocket(9000);
+            ElServer = new ServerSocket(9000);
 
             System.out.println("\n>Esperando conexion de un cliente.");
-            ElSocket = Server.accept();
+            ElSocket = ElServer.accept();
             System.out.println("\n>Conexion con cliente exitosa.");
             System.out.println("\n>Esperando informacion del usuario.");
 
             salida = new ObjectOutputStream(ElSocket.getOutputStream());
             entrada = new ObjectInputStream(ElSocket.getInputStream());
 
-            while (Uservalido.equals("no")) {
+            while (sesion.equals("no")) {
 
                 //Recibir user del cliente.
 
-                user = (String) entrada.readObject();
+                respuesta = (String) entrada.readObject();
 
-                String partesUP[] = user.split("#");
+                String partesUP[] = respuesta.split("#");
 
                 for (int i = 0; i < Accounts.length; i++) {
                     if (partesUP[0].equals(Accounts[i][0])) {
                         if (partesUP[1].equals(Accounts[i][1])) {
-                            Uservalido = "yes";
+                            sesion = "yes";
                             System.out.println("\n>Usuario valido.");
                         }
                     }
                 }
 
-                if (Uservalido.equals("no")){
+                if (sesion.equals("no")){
                     System.out.println("\n>Se ha detectado un intento de conexion con datos invalidos, se esperan nuevos datos para intentar una nueva conexion.");
                 }
 
-                salida.writeObject("" + Uservalido);
+                salida.writeObject("" + sesion);
             }
 
-            ipcliente = (String) entrada.readObject();
-            System.out.println("\n>IP del cliente es: " + ipcliente);
+            ip = (String) entrada.readObject();
+            System.out.println("\n>IP del cliente es: " + ip);
 
 
             while (true) {
 
                 System.out.println("\nftp>Esperando un comando.");
 
-                comandocliente = (String) entrada.readObject();
-                switch (comandocliente) {
+                respuesta = (String) entrada.readObject();
+                switch (respuesta) {
 
                     case "put":
 
@@ -95,9 +84,9 @@ public class Main {
                         archivo=(String)entrada.readObject();
 
                         try{
-                            Server1=new ServerSocket(9001);
-                            ElSocket1=Server1.accept();
-                            entradafile=ElSocket1.getInputStream();
+                            ElServer=new ServerSocket(9001);
+                            ElSocket=ElServer.accept();
+                            entradafile=ElSocket.getInputStream();
                             salidafile=new FileOutputStream("D:\\Programacion\\Proyectos ST\\FTP\\Archivos servidor\\"+archivo);
                             byte[] bytes=new byte[999999];
                             int count;
@@ -110,8 +99,8 @@ public class Main {
                         }catch (Exception e){
                             e.printStackTrace();
                         }finally {
-                            Server1.close();
-                            ElSocket1.close();
+                            ElServer.close();
+                            ElSocket.close();
                             entradafile.close();
                             salidafile.close();
                         }
@@ -132,11 +121,11 @@ public class Main {
                             salida.writeObject(respuesta);
 
                             try {
-                                ElSocket1 = new Socket("" + ipcliente, 9002);
+                                ElSocket = new Socket("" + ip, 9002);
                                 File f = new File("D:\\Programacion\\Proyectos ST\\FTP\\Archivos servidor\\" + archivo);
                                 byte[] bytes = new byte[999999];
                                 entradafile = new FileInputStream(f);
-                                salidafile = ElSocket1.getOutputStream();
+                                salidafile = ElSocket.getOutputStream();
                                 int count;
                                 while ((count = entradafile.read(bytes)) > 0) {
                                     salidafile.write(bytes, 0, count);
@@ -150,7 +139,7 @@ public class Main {
                             } finally {
                                 entradafile.close();
                                 salidafile.close();
-                                ElSocket1.close();
+                                ElSocket.close();
                             }
                         }else{
                             System.out.println("\nftp>El Archivo no se encuentra disponible o no existe.\n");
@@ -188,13 +177,13 @@ public class Main {
 
                             if (file.delete()) {
                                 System.out.println(file.getName() + "\nftp>El archivo no deseado, ha sido borrado.");
-                                enviar="\nftp>El archivo no deseado, ha sido borrado.";
-                                salida.writeObject(enviar);
+                                respuesta="\nftp>El archivo no deseado, ha sido borrado.";
+                                salida.writeObject(respuesta);
 
                             } else {
                                 System.out.println("\nftp>El archivo no se encuentra disponible.");
-                                enviar="\nftp>El archivo no se encuentra disponible.";
-                                salida.writeObject(enviar);
+                                respuesta="\nftp>El archivo no se encuentra disponible.";
+                                salida.writeObject(respuesta);
                             }
 
                         } catch (Exception e) {
@@ -219,7 +208,7 @@ public class Main {
                         entrada.close();
                         salida.close();
                         ElSocket.close();
-                        Server.close();
+                        ElServer.close();
 
                         System.out.println("\nftp>Gracias por usar este intento de servidor ftp.");
                         System.exit(0);
